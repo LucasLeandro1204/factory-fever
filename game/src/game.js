@@ -1,7 +1,16 @@
 import { app } from 'core/app';
 import { AmbientLight, Plane } from 'whs';
-import { MeshPhongMaterial } from 'three';
 import { addMultipleTo } from 'core/helpers';
+import {resolve} from 'path';
+
+const scene = new THREE.Scene();
+
+const log = (...args) => console.log(args);
+const loader = new THREE.FBXLoader(new THREE.LoadingManager());
+
+loader.load(resolve(__dirname, 'game/src/assets/mais1test (1).fbx'), (obj) => {
+  scene.add(obj);
+}, log,log);
 
 addMultipleTo(app,
   new AmbientLight({
@@ -12,11 +21,12 @@ addMultipleTo(app,
       width: 100,
       height: 100
     },
-    material: new MeshPhongMaterial({ color: 0x447F8B }),
+    material: new THREE.MeshPhongMaterial({ color: 0x447F8B }),
     rotation: {
       x: -Math.PI / 2,
     },
   }),
 );
+app.setScene(scene);
 
 app.start();

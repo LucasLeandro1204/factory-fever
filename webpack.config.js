@@ -46,6 +46,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       'core': path.resolve(__dirname, './game/src/core'),
+      'assets': path.resolve(__dirname, './game/src/assets'),
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
@@ -60,7 +61,7 @@ module.exports = {
   devtool: '#eval-source-map'
 }
 
-if (process.env.NODE_ENV === 'production') {
+if (false && process.env.NODE_ENV === 'production') {
   module.exports.devtool = '#source-map'
   // http://vue-loader.vuejs.org/en/workflow/production.html
   module.exports.plugins = (module.exports.plugins || []).concat([
