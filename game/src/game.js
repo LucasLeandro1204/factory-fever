@@ -1,6 +1,16 @@
 import { app } from 'core/app';
 import { AmbientLight, Plane } from 'whs';
 import { addMultipleTo } from 'core/helpers';
+import {resolve} from 'path';
+
+const scene = new THREE.Scene();
+
+const log = (...args) => console.log(args);
+const loader = new THREE.FBXLoader(new THREE.LoadingManager());
+
+loader.load(resolve(__dirname, 'game/src/assets/mais1test (1).fbx'), (obj) => {
+  scene.add(obj);
+}, log,log);
 
 addMultipleTo(app,
   new AmbientLight({
@@ -17,5 +27,6 @@ addMultipleTo(app,
     },
   }),
 );
+app.setScene(scene);
 
 app.start();
