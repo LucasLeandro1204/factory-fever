@@ -1,33 +1,60 @@
 import { loader, Sprite } from 'pixi.js';
 import { TextureCache } from 'pixi.js/lib/core/utils';
 
+const angles = ['NE', 'NW', 'SE', 'SW'];
+
 export default class {
-  constructor (name, paths, { angle = 0 } = {}) {
-    this.name = name;
-    this._angles = ['NE', 'NW', 'SE', 'SW'];
-    this._angle = angle;
-    this.sprite = null;
-    loader.add(paths.map((path, index) => {
-      return {
-        name: this.name + '_' + this._angles[index],
-        url: path,
-      };
-    }));
+  constructor (name, angle = 0) {
+    this._name = name;
+    this._angle = 0;
+    this._sprite = null;
+    this.ready = false;
   }
 
   rotate () {
-    this._angle = this._angle >= 3 ? 0 : this._angle + 1;
-    this.sprite.texture = this.texture;
-  }
-
-  get texture () {
-    return TextureCache[this.name + '_' + this._angles[this._angle]];
-  }
-
-  add (stage) {
-    if (!this.sprite) {
-      this.sprite = new Sprite(this.texture);
+    if (!this.ready) {
+      return;
     }
-    stage.addChild(this.sprite);
+
+    this._angle = this._angle >= 3 ? 0 : this._angle + 1;
+    this._sprite.texture = this._texture;
+  }
+
+  addTo (stage, x = 0, y = 0) {
+    if (!this._sprite) {
+      const sprite = new Sprite(this._texture);
+      sprite.interactive = true;
+      sprite.buttonMode = true;
+      sprite.on('click', () => this.rotate());
+      this._sprite = sprite;
+      this.ready = true;
+    }
+
+    this.move(x, y);
+    stage.addChild(this._sprite);
+  }
+
+  move (x, y) {
+    this._sprite.x = x;
+    this._sprite.y = y;
+  }
+
+  get _texture () {
+    return TextureCache[this._name + '_' + angles[this._angle]];
+  }
+
+  static setup (name, paths) {
+    if (paths.length != 4) {
+      throw new Error('Must have 4 angles');
+    }
+
+    const object_array = paths.map((url, index) => ({
+      name: name + '_' + angles[index],
+      url,
+    }));
+
+    loader.add(object_array);
+
+    return this;
   }
 };

@@ -8,9 +8,12 @@ const app = new Pixi.Application({
 });
 
 const three = window.three = new Three();
+const three2 = window.three2 = new Three();
 
 Pixi.loader.load(() => {
-  three.add(app.stage);
+  three.addTo(app.stage, 250, 250);
+  three2.addTo(app.stage);
+  three2.move(150, 50);
 });
 
 
