@@ -5,10 +5,10 @@ const angles = ['NE', 'NW', 'SE', 'SW'];
 
 export default class {
   constructor (name, angle = 0) {
-    this._name = name;
     this._angle = 0;
-    this._sprite = null;
+    this._name = name;
     this.ready = false;
+    this._sprite = null;
   }
 
   rotate () {
