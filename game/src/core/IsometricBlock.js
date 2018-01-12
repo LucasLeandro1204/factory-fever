@@ -43,7 +43,7 @@ export default class {
     return TextureCache[this._name + '_' + angles[this._angle]];
   }
 
-  static setup (paths) {
+  static setup (paths, timeout) {
     if (paths.length != 4) {
       throw new Error('Must have 4 angles');
     }
