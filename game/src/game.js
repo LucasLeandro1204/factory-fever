@@ -1,22 +1,16 @@
-import { app } from 'core/app';
-import { AmbientLight, Plane } from 'whs';
-import { MeshPhongMaterial } from 'three';
-import { addMultipleTo } from 'core/helpers';
+import * as Pixi from 'pixi.js';
+import Three from './items/Three';
+import Snowman from './items/Snowman';
 
-addMultipleTo(app,
-  new AmbientLight({
-    intensity: 0.3,
-  }),
-  new Plane({
-    geometry: {
-      width: 100,
-      height: 100
-    },
-    material: new MeshPhongMaterial({ color: 0x447F8B }),
-    rotation: {
-      x: -Math.PI / 2,
-    },
-  }),
-);
+const app = new Pixi.Application({
+  width: 500,
+  height: 500,
+  antialias: true,
+});
 
-app.start();
+Pixi.loader.load(() => {
+  //
+});
+
+
+document.body.appendChild(app.view);
