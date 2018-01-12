@@ -4,9 +4,9 @@ import { TextureCache } from 'pixi.js/lib/core/utils';
 const angles = ['NE', 'NW', 'SE', 'SW'];
 
 export default class {
-  constructor (name, angle = 0) {
+  constructor (angle = 0) {
     this._angle = 0;
-    this._name = name;
+    this._name = this.constructor.name;
     this.ready = false;
     this._sprite = null;
   }
@@ -43,13 +43,13 @@ export default class {
     return TextureCache[this._name + '_' + angles[this._angle]];
   }
 
-  static setup (name, paths) {
+  static setup (paths) {
     if (paths.length != 4) {
       throw new Error('Must have 4 angles');
     }
 
     const object_array = paths.map((url, index) => ({
-      name: name + '_' + angles[index],
+      name: this.constructor.name + '_' + angles[index],
       url,
     }));
 
