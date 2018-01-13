@@ -18,45 +18,82 @@ loader.load((loader, resources) => {
   app.stage.addChild(ground);
 });
 
-document.body.addEventListener('keydown', ({ keyCode }) => {
+let map = {};
+
+window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
+  map[keyCode] = type == "keydown";
+  if (type == "keyup") return app.stopMoving();
+
   switch (keyCode) {
-    case 65: {
-      app.move({ x: -1 });
+    case 65: { // A
+      if (map[87]) {
+
+        app.move({ x: -1, y: -1 });
+      } else if (map[83]) {
+
+        app.move({ x: -1, y: 1 });
+      } else {
+       
+        app.move({ x: -1 });
+      }
       break;
     };
-    case 87: {
-      app.move({ y: -1 });
+    case 87: { // W
+      if (map[65]) {
+
+        app.move({ x: -1, y: -1 });
+      } else if (map[68]) {
+
+        app.move({ x: 1, y: -1 });
+      } else {
+
+        app.move({ y: -1 });
+      }
       break;
     };
-    case 68: {
-      app.move({ x: 1 });
+    case 68: { // D
+      if (map[87]) {
+
+        app.move({ x: 1, y: -1 });
+      } else if (map[83]) {
+
+        app.move({ x: 1, y: 1 });
+      } else {
+       
+        app.move({ x: 1 });
+      }
       break;
     };
-    case 83: {
-      app.move({ y: 1 });
+    case 83: { // S
+      if (map[65]) {
+
+        app.move({ x: -1, y: 1 });
+      } else if (map[68]) {
+
+        app.move({ x: 1, y: 1 });
+      } else {
+
+        app.move({ y: 1 });
+      }
       break;
     };
-    case 81: {
+    case 81: { // Q
       app.rotateCounterClockwise();
       break;
     };
-    case 69: {
+    case 69: { // E
       app.rotateClockwise();
       break;
     };
-    case 189: {
+    case 189: { // -
       app.zoom(-1);
       break;
     };
-    case 187: {
+    case 187: { // =
       app.zoom(1);
       break;
     };
   }
-});
-
-document.body.addEventListener('keyup', ({ keyCode }) => {
-  app.stopMoving();
-});
+};
 
 document.body.appendChild(app.view);
