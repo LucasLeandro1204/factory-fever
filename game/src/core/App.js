@@ -7,8 +7,8 @@ export default class extends Application {
   }
 
   move ({ x = 0, y = 0 }) {
-    this.stage.pivot.x += x * 10;
-    this.stage.pivot.y += y * 10;
+    this.stage.pivot.x += x * 50;
+    this.stage.pivot.y += y * 50;
   }
 
   zoom (amount) {

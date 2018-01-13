@@ -14,12 +14,11 @@ window.app = app;
 loader.add('ground', 'src/assets/sprites/ground.png');
 
 loader.load((loader, resources) => {
- const ground = new Pixi.extras.TilingSprite(resources.ground.texture, 5000, 5000);
- app.stage.addChild(ground);
+  const ground = new Pixi.extras.TilingSprite(resources.ground.texture, 5000, 5000);
+  app.stage.addChild(ground);
 });
 
 document.body.addEventListener('keydown', ({ keyCode }) => {
-  console.log(keyCode);
   switch (keyCode) {
     case 65: {
       app.move({ x: -1 });
