@@ -25,19 +25,6 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
   if (type == "keyup") return app.stopMoving();
 
   switch (keyCode) {
-    case 65: { // A
-      if (map[87]) {
-
-        app.move({ x: -1, y: -1 });
-      } else if (map[83]) {
-
-        app.move({ x: -1, y: 1 });
-      } else {
-       
-        app.move({ x: -1 });
-      }
-      break;
-    };
     case 87: { // W
       if (map[65]) {
 
@@ -51,16 +38,16 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       }
       break;
     };
-    case 68: { // D
+    case 65: { // A
       if (map[87]) {
 
-        app.move({ x: 1, y: -1 });
+        app.move({ x: -1, y: -1 });
       } else if (map[83]) {
 
-        app.move({ x: 1, y: 1 });
+        app.move({ x: -1, y: 1 });
       } else {
        
-        app.move({ x: 1 });
+        app.move({ x: -1 });
       }
       break;
     };
@@ -74,6 +61,19 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       } else {
 
         app.move({ y: 1 });
+      }
+      break;
+    };
+    case 68: { // D
+      if (map[87]) {
+
+        app.move({ x: 1, y: -1 });
+      } else if (map[83]) {
+
+        app.move({ x: 1, y: 1 });
+      } else {
+       
+        app.move({ x: 1 });
       }
       break;
     };
