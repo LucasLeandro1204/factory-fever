@@ -1,5 +1,4 @@
 import { Application } from 'pixi.js';
-import Tween from '@tweenjs/tween.js';
 
 export default class extends Application {
   constructor (opts) {
