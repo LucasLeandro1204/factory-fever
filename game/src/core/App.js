@@ -1,4 +1,5 @@
 import { Application } from 'pixi.js';
+import Tween from '@tweenjs/tween.js';
 
 export default class extends Application {
   constructor (opts) {
@@ -6,7 +7,13 @@ export default class extends Application {
   }
 
   move ({ x = 0, y = 0 }) {
-    // add it to var
+    this.stage.pivot.x += x * 10;
+    this.stage.pivot.y += y * 10;
+  }
+
+  zoom (amount) {
+    this.stage.scale.x += amount / 10;
+    this.stage.scale.y += amount / 10;
   }
 
   stopMoving () {
@@ -15,7 +22,7 @@ export default class extends Application {
 
   init () {
     this.ticker.add((delta) => {
-      // use twin to smooth
+      //
     });
   }
 }
