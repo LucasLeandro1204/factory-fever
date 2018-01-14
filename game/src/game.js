@@ -8,7 +8,6 @@ const app = new App({
   height: window.innerHeight,
   antialias: true,
 });
-
 loader.add('ground', 'src/assets/sprites/ground.png');
 
 const container = new Pixi.Container();
@@ -39,85 +38,6 @@ loader.load((loader, resources) => {
   }
 });
 
-const map = new Map();
-
-window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
-  map.set(keyCode, type == "keydown");
-
-  switch (keyCode) {
-    case 87: { // W
-      if (map.get(65)) {
-
-        app.move({ x: -1, y: -1 });
-      } else if (map.get(68)) {
-
-        app.move({ x: 1, y: -1 });
-      } else if (map.get(87)) {
-
-        app.move({ y: -1 });
-      }
-      break;
-    };
-    case 65: { // A
-      if (map.get(87)) {
-
-        app.move({ x: -1, y: -1 });
-      } else if (map.get(83)) {
-
-        app.move({ x: -1, y: 1 });
-      } else if (map.get(65)) {
-
-        app.move({ x: -1 });
-      }
-      break;
-    };
-    case 83: { // S
-      if (map.get(65)) {
-
-        app.move({ x: -1, y: 1 });
-      } else if (map.get(68)) {
-
-        app.move({ x: 1, y: 1 });
-      } else if (map.get(83)) {
-
-        app.move({ y: 1 });
-      }
-      break;
-    };
-    case 68: { // D
-      if (map.get(87)) {
-
-        app.move({ x: 1, y: -1 });
-      } else if (map.get(83)) {
-
-        app.move({ x: 1, y: 1 });
-      } else if (map.get(68)) {
-
-        app.move({ x: 1 });
-      }
-      break;
-    };
-    case 81: { // Q
-      app.rotateCounterClockwise();
-      break;
-    };
-    case 69: { // E
-      app.rotateClockwise();
-      break;
-    };
-    case 189: { // -
-      if (map.get(189)) {
-        app.zoom(-0.3);
-      }
-      break;
-    };
-    case 187: { // =
-      if (map.get(187)) {
-        app.zoom(0.3);
-      }
-      break;
-    };
-  }
-};
+app.init(window);
 
 document.body.appendChild(app.view);
