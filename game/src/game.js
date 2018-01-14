@@ -1,8 +1,7 @@
 import App from 'core/App';
+import Three from 'items/Three';
 import * as Pixi from 'pixi.js';
-import * as display from 'pixi-display';
 import { loader } from 'pixi.js';
-import IsometricBlock from 'core/IsometricBlock';
 
 const app = new App({
   width: window.innerWidth,
@@ -10,35 +9,11 @@ const app = new App({
   antialias: true,
 });
 
-window.app = app;
-
-
-class Three extends IsometricBlock {
-  //
-}
-
-const three = Three.setup('three', [
-  'src/assets/sprites/treePineSnow_NE.png',
-  'src/assets/sprites/treePineSnow_NW.png',
-  'src/assets/sprites/treePineSnow_SE.png',
-  'src/assets/sprites/treePineSnow_SW.png',
-]);
-
 loader.add('ground', 'src/assets/sprites/ground.png');
 
-console.log(display);
-
 const container = new Pixi.Container();
-const groundGroup = new display.Group(0, (sprite) => {
-  sprite.zOrder = -sprite.y;
-});
-const thingsGroup = new display.Group(1, (sprite) => {
-  sprite.zOrder = +sprite.y;
-});
 container.rotation = 62.05;
 app.stage.addChild(container);
-app.stage.addChild(new display.Layer(groundGroup));
-app.stage.addChild(new display.Layer(thingsGroup));
 
 loader.load((loader, resources) => {
   for (let y = 0; y < 25; y++) {
@@ -49,17 +24,15 @@ loader.load((loader, resources) => {
       const d = 100;
       ground.x = x * d;
       ground.y = y * d;
-      ground.parentGroup = groundGroup;
 
       if (Math.floor(Math.random() * 100)-1 <= 25) {
-        const three2 = new Three();
-        three2.addTo(ground);
-        three2._sprite.rotation = -62.05;
-        three2._sprite.x = 141;
-        three2._sprite.y = -141;
-        three2._sprite.anchor.set(.5);
-        three2._sprite.scale.set(6);
-        three2.parentGroup = thingsGroup;
+        const three = new Three();
+        three.addTo(ground);
+        three._sprite.rotation = -62.05;
+        three._sprite.x = 141;
+        three._sprite.y = -141;
+        three._sprite.anchor.set(.5);
+        three._sprite.scale.set(6);
       }
       container.addChild(ground);
     }
