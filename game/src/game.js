@@ -14,8 +14,23 @@ window.app = app;
 loader.add('ground', 'src/assets/sprites/ground.png');
 
 loader.load((loader, resources) => {
-  const ground = new Pixi.extras.TilingSprite(resources.ground.texture, 5000, 5000);
-  app.stage.addChild(ground);
+
+  for (let i = 0; i < 25; i++) {
+    for (let j = 0; j < 25; j++) {
+      const ground = new Pixi.Sprite(resources.ground.texture);
+      ground.scale.set(.2);
+      ground.anchor.set(.5);
+      ground.rotation = 62.05;
+      const s = 141;
+      ground.x = j  * s;
+      ground.y = i * s;
+      ground.alpha = 0.1;
+
+        if (j == i) {
+        }
+      app.stage.addChild(ground);
+    }
+}
 });
 
 let map = {};
@@ -46,7 +61,7 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
 
         app.move({ x: -1, y: 1 });
       } else {
-       
+
         app.move({ x: -1 });
       }
       break;
@@ -72,7 +87,7 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
 
         app.move({ x: 1, y: 1 });
       } else {
-       
+
         app.move({ x: 1 });
       }
       break;
