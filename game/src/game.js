@@ -39,13 +39,15 @@ loader.load((loader, resources) => {
       ground.x = x * d;
       ground.y = y * d;
 
-      const three2 = new Three();
-      three2.addTo(ground);
-      three2._sprite.rotation = -62.05;
-      three2._sprite.x = 141;
-      three2._sprite.y = -141;
-      three2._sprite.anchor.set(.5);
-      three2._sprite.scale.set(6);
+      if (Math.floor(Math.random() * 100)-1 <= 25) {
+        const three2 = new Three();
+        three2.addTo(ground);
+        three2._sprite.rotation = -62.05;
+        three2._sprite.x = 141;
+        three2._sprite.y = -141;
+        three2._sprite.anchor.set(.5);
+        three2._sprite.scale.set(6);
+      }
       container.addChild(ground);
     }
   }
