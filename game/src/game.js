@@ -56,10 +56,6 @@ const map = new Map();
 window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
   map.set(keyCode, type == "keydown");
 
-  /*if (type == "keyup") {
-    return;
-  }*/
-
   switch (keyCode) {
     case 87: { // W
       if (map.get(65)) {
@@ -123,13 +119,13 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
     };
     case 189: { // -
       if (map.get(189)) {
-        app.zoom(-0.1);
+        app.zoom(-0.3);
       }
       break;
     };
     case 187: { // =
       if (map.get(187)) {
-        app.zoom(0.1);
+        app.zoom(0.3);
       }
       break;
     };
