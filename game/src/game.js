@@ -30,14 +30,14 @@ container.rotation = 62.05;
 app.stage.addChild(container);
 
 loader.load((loader, resources) => {
-  for (let i = 0; i < 25; i++) {
-    for (let j = 0; j < 25; j++) {
+  for (let y = 0; y < 25; y++) {
+    for (let x = 25; x > 0; x--) {
       const ground = new Pixi.Sprite(resources.ground.texture);
       ground.scale.set(.2);
       ground.anchor.set(.5);
-      const s = 100;
-      ground.x = j  * s;
-      ground.y = i * s;
+      const d = 100;
+      ground.x = x * d;
+      ground.y = y * d;
 
       const three2 = new Three();
       three2.addTo(ground);
