@@ -56,9 +56,9 @@ const map = new Map();
 window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
   map.set(keyCode, type == "keydown");
 
-  if (type == "keyup") {
+  /*if (type == "keyup") {
     return;
-  }
+  }*/
 
   switch (keyCode) {
     case 87: { // W
@@ -68,7 +68,7 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       } else if (map.get(68)) {
 
         app.move({ x: 1, y: -1 });
-      } else {
+      } else if (map.get(87)) {
 
         app.move({ y: -1 });
       }
@@ -81,7 +81,7 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       } else if (map.get(83)) {
 
         app.move({ x: -1, y: 1 });
-      } else {
+      } else if (map.get(65)) {
 
         app.move({ x: -1 });
       }
@@ -94,7 +94,7 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       } else if (map.get(68)) {
 
         app.move({ x: 1, y: 1 });
-      } else {
+      } else if (map.get(83)) {
 
         app.move({ y: 1 });
       }
@@ -107,7 +107,7 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       } else if (map.get(83)) {
 
         app.move({ x: 1, y: 1 });
-      } else {
+      } else if (map.get(68)) {
 
         app.move({ x: 1 });
       }
@@ -122,11 +122,15 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       break;
     };
     case 189: { // -
-      app.zoom(-1);
+      if (map.get(189)) {
+        app.zoom(-0.1);
+      }
       break;
     };
     case 187: { // =
-      app.zoom(1);
+      if (map.get(187)) {
+        app.zoom(0.1);
+      }
       break;
     };
   }
