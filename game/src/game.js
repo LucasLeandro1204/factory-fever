@@ -1,7 +1,7 @@
 import App from 'core/App';
 import * as Pixi from 'pixi.js';
-
 import { loader } from 'pixi.js';
+import IsometricBlock from 'core/IsometricBlock';
 
 const app = new App({
   width: window.innerWidth,
@@ -11,15 +11,12 @@ const app = new App({
 
 window.app = app;
 
-import IsometricBlock from 'core/IsometricBlock';
-
-const name = 'three';
 
 class Three extends IsometricBlock {
   //
 }
 
-const three = Three.setup([
+const three = Three.setup('three', [
   'src/assets/sprites/treePineSnow_NE.png',
   'src/assets/sprites/treePineSnow_NW.png',
   'src/assets/sprites/treePineSnow_SE.png',
@@ -28,45 +25,47 @@ const three = Three.setup([
 
 loader.add('ground', 'src/assets/sprites/ground.png');
 
-loader.load((loader, resources) => {
+const container = new Pixi.Container();
+container.rotation = 62.05;
+app.stage.addChild(container);
 
+loader.load((loader, resources) => {
   for (let i = 0; i < 25; i++) {
     for (let j = 0; j < 25; j++) {
       const ground = new Pixi.Sprite(resources.ground.texture);
       ground.scale.set(.2);
       ground.anchor.set(.5);
-      ground.rotation = 62.05;
-      const s = 141;
+      const s = 100;
       ground.x = j  * s;
       ground.y = i * s;
 
-        if (j == i) {
-          const three2 = new Three();
-          three2.addTo(ground);
-          three2._sprite.rotation = -62.05;
-           three2.alpha = 2;
-           three2._sprite.x = 141;
-           three2._sprite.y = -141;
-           three2._sprite.anchor.set(.5);
-          three2._sprite.scale.set(6);
-        }
-      app.stage.addChild(ground);
+      const three2 = new Three();
+      three2.addTo(ground);
+      three2._sprite.rotation = -62.05;
+      three2._sprite.x = 141;
+      three2._sprite.y = -141;
+      three2._sprite.anchor.set(.5);
+      three2._sprite.scale.set(6);
+      container.addChild(ground);
     }
-}
+  }
 });
 
-let map = {};
+const map = new Map();
 
 window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
-  map[keyCode] = type == "keydown";
-  if (type == "keyup") return app.stopMoving();
+  map.set(keyCode, type == "keydown");
+
+  if (type == "keyup") {
+    return;
+  }
 
   switch (keyCode) {
     case 87: { // W
-      if (map[65]) {
+      if (map.get(65)) {
 
         app.move({ x: -1, y: -1 });
-      } else if (map[68]) {
+      } else if (map.get(68)) {
 
         app.move({ x: 1, y: -1 });
       } else {
@@ -76,10 +75,10 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       break;
     };
     case 65: { // A
-      if (map[87]) {
+      if (map.get(87)) {
 
         app.move({ x: -1, y: -1 });
-      } else if (map[83]) {
+      } else if (map.get(83)) {
 
         app.move({ x: -1, y: 1 });
       } else {
@@ -89,10 +88,10 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       break;
     };
     case 83: { // S
-      if (map[65]) {
+      if (map.get(65)) {
 
         app.move({ x: -1, y: 1 });
-      } else if (map[68]) {
+      } else if (map.get(68)) {
 
         app.move({ x: 1, y: 1 });
       } else {
@@ -102,10 +101,10 @@ window.onkeydown = window.onkeyup = ({ keyCode, type }) => {
       break;
     };
     case 68: { // D
-      if (map[87]) {
+      if (map.get(87)) {
 
         app.move({ x: 1, y: -1 });
-      } else if (map[83]) {
+      } else if (map.get(83)) {
 
         app.move({ x: 1, y: 1 });
       } else {
