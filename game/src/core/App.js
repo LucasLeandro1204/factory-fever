@@ -20,9 +20,9 @@ export default class extends Application {
   init (global) {
     global.onkeydown = global.onkeyup = ({ keyCode, type }) => {
       if (type == 'keyup') {
-        app.onKeyup(keyCode);
+        this.onKeyup(keyCode);
       } else {
-        app.onKeydown(keyCode);
+        this.onKeydown(keyCode);
       }
     };
 
