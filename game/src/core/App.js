@@ -1,3 +1,4 @@
+import Config from 'core/Config';
 import { Application } from 'pixi.js';
 
 export default class extends Application {
@@ -6,13 +7,13 @@ export default class extends Application {
   }
 
   move ({ x = 0, y = 0 }) {
-    this.stage.pivot.x += x * 50;
-    this.stage.pivot.y += y * 50;
+    this.stage.pivot.x += x * Config.MOVE_SPEED;
+    this.stage.pivot.y += y * Config.MOVE_SPEED;
   }
 
   zoom (amount) {
-    this.stage.scale.x += amount / 10;
-    this.stage.scale.y += amount / 10;
+    this.stage.scale.x += amount * Config.ZOOM_SPEED;
+    this.stage.scale.y += amount * Config.ZOOM_SPEED;
   }
 
   stopMoving () {
