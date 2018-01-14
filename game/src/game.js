@@ -11,6 +11,21 @@ const app = new App({
 
 window.app = app;
 
+import IsometricBlock from 'core/IsometricBlock';
+
+const name = 'three';
+
+class Three extends IsometricBlock {
+  //
+}
+
+const three = Three.setup([
+  'src/assets/sprites/treePineSnow_NE.png',
+  'src/assets/sprites/treePineSnow_NW.png',
+  'src/assets/sprites/treePineSnow_SE.png',
+  'src/assets/sprites/treePineSnow_SW.png',
+]);
+
 loader.add('ground', 'src/assets/sprites/ground.png');
 
 loader.load((loader, resources) => {
@@ -24,9 +39,16 @@ loader.load((loader, resources) => {
       const s = 141;
       ground.x = j  * s;
       ground.y = i * s;
-      ground.alpha = 0.1;
 
         if (j == i) {
+          const three2 = new Three();
+          three2.addTo(ground);
+          three2._sprite.rotation = -62.05;
+           three2.alpha = 2;
+           three2._sprite.x = 141;
+           three2._sprite.y = -141;
+           three2._sprite.anchor.set(.5);
+          three2._sprite.scale.set(6);
         }
       app.stage.addChild(ground);
     }
