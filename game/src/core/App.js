@@ -16,10 +16,6 @@ export default class extends Application {
     this.stage.scale.y += amount * Config.ZOOM_SPEED;
   }
 
-  stopMoving () {
-    this.moving = false;
-  }
-
   init () {
     this.ticker.add((delta) => {
       //
