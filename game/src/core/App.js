@@ -5,6 +5,7 @@ export default class extends Application {
   constructor (opts) {
     super(opts);
     this.keymap = new Map();
+    this.last_position = {};
   }
 
   move ({ x = 0, y = 0 }) {
@@ -25,6 +26,17 @@ export default class extends Application {
         this.onKeydown(keyCode);
       }
     };
+
+    global
+      .container
+        .on('mousedown',       this.onDragStart )
+        .on('touchstart',      this.onDragStart )
+        .on('mouseup',         this.onDragEnd   )
+        .on('mouseupoutside',  this.onDragEnd   )
+        .on('touchend',        this.onDragEnd   )
+        .on('touchendoutside', this.onDragEnd   )
+        .on('mousemove',       this.onDragMove  )
+        .on('touchmove',       this.onDragMove  );
 
     // this.ticker.add((delta) => {
     //   //
@@ -74,6 +86,40 @@ export default class extends Application {
       case 187: { // =
         this.zoom(1);
         break;
+      };
+    }
+  }
+
+  onDragStart(event) {
+    this.data = event.data;
+    this.dragging = true;
+  }
+  
+  onDragEnd() {
+    this.dragging = false;
+    this.data = null;
+  }
+
+  onDragMove() {
+    if (this.dragging) {
+
+      if (last_position.x) {
+        let deltaX = this.last_position.x - this.data.global.x;
+        let deltaY = this.last_position.y - this.data.global.y;
+
+        if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX > 0) { //left
+          app.stage.pivot.x += 50;
+        } else if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX < 0) { //right
+          app.stage.pivot.x -= 50;
+        } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY > 0) { //up
+          app.stage.pivot.y += 50;
+        } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY < 0) { //down
+          app.stage.pivot.y -= 50;
+        }
+      }
+      this.last_position = {
+        x: this.data.global.x,
+        y: this.data.global.y,
       };
     }
   }
