@@ -16,7 +16,7 @@ export default class {
       return;
     }
 
-    this._angle = this._angle >= 3 ? 0 : this._angle + 1;
+    this._angle = (this._angle + 1) % 4;
     this._sprite.texture = this._texture;
   }
 
