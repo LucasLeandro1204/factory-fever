@@ -9,48 +9,111 @@ export default class {
 
 	generateTo(container) {
 
-		const borders  = [
-			{ x: 0, y: 0 }, { x: 0, y: 1 }, { x: 0, y: 2 },
-			{ x: 1, y: 0 }, { x: 1, y: 1 }, { x: 1, y: 2 },
-			{ x: 2, y: 0 }, { x: 2, y: 1 }, { x: 2, y: 2 },
-
-			{ x: Config.WORLD_SIZE.x-1, y: Config.WORLD_SIZE.y-1 }, { x: Config.WORLD_SIZE.x-1, y: Config.WORLD_SIZE.y-2 }, { x: Config.WORLD_SIZE.x-1, y: Config.WORLD_SIZE.y-3 }, 
-			{ x: Config.WORLD_SIZE.x-2, y: Config.WORLD_SIZE.x-1 }, { x: Config.WORLD_SIZE.x-2, y: Config.WORLD_SIZE.y-2 }, { x: Config.WORLD_SIZE.x-2, y: Config.WORLD_SIZE.y-3 }, 
-			{ x: Config.WORLD_SIZE.x-3, y: Config.WORLD_SIZE.x-1 }, { x: Config.WORLD_SIZE.x-3, y: Config.WORLD_SIZE.y-2 }, { x: Config.WORLD_SIZE.x-3, y: Config.WORLD_SIZE.y-3 }, 
-	  ];
-
-		for (let y = 0; y < Config.WORLD_SIZE.y; y++) {
+		for (let y = 0; y < Config.WORLD_SIZE.y+1; y++) {
 	    for (let x = Config.WORLD_SIZE.x; x > 0; x--) {
 
-	    	const position = { x, y };
-	    	let sand;
 	    	let ground;
 
-	    	for (let i = 0; i < borders.length; i++) {
-	    		console.log(`x: ${x}, y: ${y}, border: ${JSON.stringify(borders[i])}`);
-	    		if (JSON.stringify(borders[i]) == JSON.stringify(position)) {
-	    			sand = true;
-	    			break;
+	    	if (x == Config.WORLD_SIZE.x || x == Config.WORLD_SIZE.x-1 || x == Config.WORLD_SIZE.x-2) {
+
+	    		switch(x) {
+	    			case Config.WORLD_SIZE.x: {
+	    				ground = this.genGround("sand", x, y);
+	    				break;
+	    			};
+	    			case Config.WORLD_SIZE.x-1: {
+	    				if (this.randomWithChanceOf(80)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
+	    			case Config.WORLD_SIZE.x-2: {
+	    				if (this.randomWithChanceOf(15)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
 	    		}
-	    	}
+	    	} else if (y == Config.WORLD_SIZE.y || y == Config.WORLD_SIZE.y-1 || y == Config.WORLD_SIZE.y-2) {
 
-	    	if (sand) {
-	    		if (this.randomWithChangeOf(80)) {
-	    			ground = this.genGround("sand", x, y);
-	    		} else {
-	    			ground = this.genGround("grass", x, y);
+	    		switch(y) {
+	    			case Config.WORLD_SIZE.y: {
+	    				ground = this.genGround("sand", x, y);
+	    				break;
+	    			};
+	    			case Config.WORLD_SIZE.y-1: {
+	    				if (this.randomWithChanceOf(80)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
+	    			case Config.WORLD_SIZE.y-2: {
+	    				if (this.randomWithChanceOf(15)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
+	    		}
+	    	} else if (x == 1 || x == 2 || x == 3) {
 
-		      	if (this.randomWithChangeOf(25)) {
-		       		this.genTreeTo(ground);
-		      	}
+	    		switch(x) {
+	    			case 1: {
+	    				ground = this.genGround("sand", x, y);
+	    				break;
+	    			};
+	    			case 2: {
+	    				if (this.randomWithChanceOf(80)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
+	    			case 3: {
+	    				if (this.randomWithChanceOf(15)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
+	    		}
+	    	} else if (y == 0 || y == 1 || y == 2) {
+
+	    		switch(y) {
+	    			case 0: {
+	    				ground = this.genGround("sand", x, y);
+	    				break;
+	    			};
+	    			case 1: {
+	    				if (this.randomWithChanceOf(80)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
+	    			case 2: {
+	    				if (this.randomWithChanceOf(15)) {
+	    					ground = this.genGround("sand", x, y);
+	    				} else {
+	    					ground = this.genGrassGround(x, y);
+	    				}
+	    				break;
+	    			};
 	    		}
 	    	} else {
-	    		ground = this.genGround("grass", x, y);
 
-		      if (this.randomWithChangeOf(25)) {
-		        this.genTreeTo(ground);
-		      }
-		    }
+	    		ground = this.genGrassGround(x, y, 25);
+	    	}
 	      container.addChild(ground);
 	    }
 	  }
@@ -66,6 +129,15 @@ export default class {
 		three._sprite.scale.set(6);
 	}
 
+	genGrassGround(x, y, treeChance) {
+		const ground = this.genGround("grass", x, y);
+
+		if (this.randomWithChanceOf(treeChance)) {
+			this.genTreeTo(ground);
+		}
+		return ground;
+	}
+
 	genGround(type, x, y) {
 		const ground = new Pixi.Sprite(this.resources[type].texture);
 		ground.scale.set(.2);
@@ -76,7 +148,7 @@ export default class {
 		return ground;
 	}
 
-	randomWithChangeOf(chance) {
+	randomWithChanceOf(chance) {
 		return Math.floor(Math.random() * 100)-1 <= chance;
 	}
 }
