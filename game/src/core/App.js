@@ -6,6 +6,9 @@ export default class extends Application {
     super(opts);
     this.keymap = new Map();
     this.last_position = {};
+    this.onDragMove = this.onDragMove.bind(this);
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDragEnd = this.onDragEnd.bind(this);
   }
 
   move ({ x = 0, y = 0 }) {
@@ -103,18 +106,18 @@ export default class extends Application {
   onDragMove() {
     if (this.dragging) {
 
-      if (last_position.x) {
+      if (this.last_position.x) {
         let deltaX = this.last_position.x - this.data.global.x;
         let deltaY = this.last_position.y - this.data.global.y;
 
         if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX > 0) { //left
-          app.stage.pivot.x += 50;
+          this.stage.pivot.x += Config.DRAG_SPEED;
         } else if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX < 0) { //right
-          app.stage.pivot.x -= 50;
+          this.stage.pivot.x -= Config.DRAG_SPEED;
         } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY > 0) { //up
-          app.stage.pivot.y += 50;
+          this.stage.pivot.y += Config.DRAG_SPEED;
         } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY < 0) { //down
-          app.stage.pivot.y -= 50;
+          this.stage.pivot.y -= Config.DRAG_SPEED;
         }
       }
       this.last_position = {

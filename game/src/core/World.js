@@ -5,6 +5,7 @@ import Config from 'core/Config';
 export default class {
 	constructor(resources) {
 		this.resources = resources;
+		this.ground = null;
 	}
 
 	generateTo(container) {
@@ -12,29 +13,33 @@ export default class {
 		for (let y = 0; y < Config.WORLD_SIZE.y+1; y++) {
 	    for (let x = Config.WORLD_SIZE.x; x > 0; x--) {
 
-	    	let ground;
-
 	    	if (x == Config.WORLD_SIZE.x || x == Config.WORLD_SIZE.x-1 || x == Config.WORLD_SIZE.x-2) {
 
 	    		switch(x) {
 	    			case Config.WORLD_SIZE.x: {
-	    				ground = this.genGround("sand", x, y);
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case Config.WORLD_SIZE.x-1: {
 	    				if (this.randomWithChanceOf(80)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case Config.WORLD_SIZE.x-2: {
 	    				if (this.randomWithChanceOf(15)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    		}
@@ -42,23 +47,29 @@ export default class {
 
 	    		switch(y) {
 	    			case Config.WORLD_SIZE.y: {
-	    				ground = this.genGround("sand", x, y);
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case Config.WORLD_SIZE.y-1: {
 	    				if (this.randomWithChanceOf(80)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case Config.WORLD_SIZE.y-2: {
 	    				if (this.randomWithChanceOf(15)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    		}
@@ -66,23 +77,29 @@ export default class {
 
 	    		switch(x) {
 	    			case 1: {
-	    				ground = this.genGround("sand", x, y);
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case 2: {
 	    				if (this.randomWithChanceOf(80)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case 3: {
 	    				if (this.randomWithChanceOf(15)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    		}
@@ -90,33 +107,73 @@ export default class {
 
 	    		switch(y) {
 	    			case 0: {
-	    				ground = this.genGround("sand", x, y);
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case 1: {
 	    				if (this.randomWithChanceOf(80)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    			case 2: {
 	    				if (this.randomWithChanceOf(15)) {
-	    					ground = this.genGround("sand", x, y);
-	    				} else {
-	    					ground = this.genGrassGround(x, y);
+	    					this.ground = this.genGround("sand", x, y);
+	    					break;
+	    				} else if (this.logic(x, y)) {
+	    					this.ground = this.genGrassGround(x, y);
+	    					break;
 	    				}
+	    				this.ground = this.genGround("sand", x, y);
 	    				break;
 	    			};
 	    		}
 	    	} else {
 
-	    		ground = this.genGrassGround(x, y, 25);
+	    		this.ground = this.genGrassGround(x, y, 25);
 	    	}
-	      container.addChild(ground);
+
+	    	if (!this.ground) continue;
+
+	      container.addChild(this.ground);
 	    }
 	  }
+	}
+
+	logic(x, y) {
+		if ((Config.WORLD_SIZE.x   == x && 0                     == y) || // x=1, y=1   xxx
+			  (Config.WORLD_SIZE.x   == x && 1                     == y) || // x=1, y=2     x
+			  (Config.WORLD_SIZE.x   == x && 2                     == y) || // x=1, y=3     x (cornor top right fucking logic :D)
+			  (Config.WORLD_SIZE.x-1 == x && 0                     == y) || // x=2, y=1   
+			  (Config.WORLD_SIZE.x-2 == x && 0                     == y) || // x=3, y=1
+				//-----------------------------------------------------------------------
+				(3                     == x && 0                     == y) || // x=3, y=1   xxx
+			  (3                     == x && 1                     == y) || // x=3, y=2   x
+			  (3                     == x && 2                     == y) || // x=3, y=3   x   (cornor top left fucking logic :D)
+			  (2                     == x && 0                     == y) || // x=2, y=1   
+			  (1                     == x && 0                     == y) || // x=1, y=1
+				//-----------------------------------------------------------------------
+				(Config.WORLD_SIZE.x   == x && Config.WORLD_SIZE.y   == y) || // x=1, y=1     x
+			  (Config.WORLD_SIZE.x   == x && Config.WORLD_SIZE.y-1 == y) || // x=1, y=2     x
+			  (Config.WORLD_SIZE.x   == x && Config.WORLD_SIZE.y-2 == y) || // x=1, y=3   xxx (cornor bottom right fucking logic :D)
+			  (Config.WORLD_SIZE.x-1 == x && Config.WORLD_SIZE.y-2 == y) || // x=2, y=3   
+			  (Config.WORLD_SIZE.x-2 == x && Config.WORLD_SIZE.y-2 == y) || // x=3, y=3
+				//-----------------------------------------------------------------------
+				(3                     == x && Config.WORLD_SIZE.y   == y) || // x=3, y=1   x
+			  (3                     == x && Config.WORLD_SIZE.y-1 == y) || // x=3, y=2   x
+			  (1                     == x && Config.WORLD_SIZE.y-2 == y) || // x=1, y=3   xxx (cornor bottom left fucking logic :D)
+			  (2                     == x && Config.WORLD_SIZE.y-2 == y) || // x=2, y=3   
+			  (3                     == x && Config.WORLD_SIZE.y-2 == y)    // x=3, y=3
+				//-----------------------------------------------------------------------
+			 ) {
+			return false;
+		}
+		return true;
 	}
 
 	genTreeTo(ground) {
