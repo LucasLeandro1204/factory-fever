@@ -1,3 +1,4 @@
+import World from 'core/World';
 import Config from 'core/Config';
 import { Application } from 'pixi.js';
 
@@ -6,9 +7,7 @@ export default class extends Application {
     super(opts);
     this.keymap = new Map();
     this.last_position = {};
-    this.onDragMove = this.onDragMove.bind(this);
-    this.onDragStart = this.onDragStart.bind(this);
-    this.onDragEnd = this.onDragEnd.bind(this);
+    this.world = new World(this.stage);
   }
 
   move ({ x = 0, y = 0 }) {
@@ -30,19 +29,10 @@ export default class extends Application {
       }
     };
 
-    global
-      .container
-        .on('mousedown',       this.onDragStart )
-        .on('touchstart',      this.onDragStart )
-        .on('mouseup',         this.onDragEnd   )
-        .on('mouseupoutside',  this.onDragEnd   )
-        .on('touchend',        this.onDragEnd   )
-        .on('touchendoutside', this.onDragEnd   )
-        .on('mousemove',       this.onDragMove  )
-        .on('touchmove',       this.onDragMove  );
+    this.world.init();
 
     // this.ticker.add((delta) => {
-    //   //
+
     // });
   }
 
@@ -89,40 +79,6 @@ export default class extends Application {
       case 187: { // =
         this.zoom(1);
         break;
-      };
-    }
-  }
-
-  onDragStart(event) {
-    this.data = event.data;
-    this.dragging = true;
-  }
-  
-  onDragEnd() {
-    this.dragging = false;
-    this.data = null;
-  }
-
-  onDragMove() {
-    if (this.dragging) {
-
-      if (this.last_position.x) {
-        let deltaX = this.last_position.x - this.data.global.x;
-        let deltaY = this.last_position.y - this.data.global.y;
-
-        if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX > 0) { //left
-          this.stage.pivot.x += Config.DRAG_SPEED;
-        } else if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX < 0) { //right
-          this.stage.pivot.x -= Config.DRAG_SPEED;
-        } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY > 0) { //up
-          this.stage.pivot.y += Config.DRAG_SPEED;
-        } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY < 0) { //down
-          this.stage.pivot.y -= Config.DRAG_SPEED;
-        }
-      }
-      this.last_position = {
-        x: this.data.global.x,
-        y: this.data.global.y,
       };
     }
   }

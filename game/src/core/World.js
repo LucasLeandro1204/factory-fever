@@ -1,211 +1,77 @@
-import * as Pixi from 'pixi.js'
-import Three from 'items/Three';
 import Config from 'core/Config';
+import { Container } from 'pixi.js';
+import Dirt from 'items/ground/Dirt';
+
+const mapEvents = {
+  mouseup: 'onDragEnd',
+  touchend: 'onDragEnd',
+  mousemove: 'onDragMove',
+  touchmove: 'onDragMove',
+  mousedown: 'onDragStart',
+  touchstart: 'onDragStart',
+  mouseupoutside: 'onDragEnd',
+  touchendoutside: 'onDragEnd',
+};
 
 export default class {
-	constructor(resources) {
-		this.resources = resources;
-		this.ground = null;
-	}
+  constructor (stage) {
+    this.container = new Container();
+    this.drag = {};
+    this.stage = stage;
+  }
 
-	generateTo(container) {
+  init () {
+    this.container.rotation = 62.05;
+    this.container.interactive = true;
+    this.generate();
 
-		for (let y = 0; y < Config.WORLD_SIZE.y+1; y++) {
-	    for (let x = Config.WORLD_SIZE.x; x > 0; x--) {
+    Object.keys(mapEvents).forEach((event) => {
+      this.container.on(event, e => this[mapEvents[event]](e));
+    });
 
-	    	if (x == Config.WORLD_SIZE.x || x == Config.WORLD_SIZE.x-1 || x == Config.WORLD_SIZE.x-2) {
+    this.stage.addChild(this.container);
+  }
 
-	    		switch(x) {
-	    			case Config.WORLD_SIZE.x: {
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case Config.WORLD_SIZE.x-1: {
-	    				if (this.randomWithChanceOf(80)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case Config.WORLD_SIZE.x-2: {
-	    				if (this.randomWithChanceOf(15)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    		}
-	    	} else if (y == Config.WORLD_SIZE.y || y == Config.WORLD_SIZE.y-1 || y == Config.WORLD_SIZE.y-2) {
+  onDragStart(event) {
+    this.drag.pos = event.data.global;
+    this.drag.run = true;
+  }
 
-	    		switch(y) {
-	    			case Config.WORLD_SIZE.y: {
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case Config.WORLD_SIZE.y-1: {
-	    				if (this.randomWithChanceOf(80)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case Config.WORLD_SIZE.y-2: {
-	    				if (this.randomWithChanceOf(15)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    		}
-	    	} else if (x == 1 || x == 2 || x == 3) {
+  onDragEnd() {
+    this.drag.data = {};
+    this.drag.run = true;
+  }
 
-	    		switch(x) {
-	    			case 1: {
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case 2: {
-	    				if (this.randomWithChanceOf(80)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case 3: {
-	    				if (this.randomWithChanceOf(15)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    		}
-	    	} else if (y == 0 || y == 1 || y == 2) {
+  onDragMove() {
+    if (true || !this.drag.run) {
+      return;
+    }
 
-	    		switch(y) {
-	    			case 0: {
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case 1: {
-	    				if (this.randomWithChanceOf(80)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    			case 2: {
-	    				if (this.randomWithChanceOf(15)) {
-	    					this.ground = this.genGround("sand", x, y);
-	    					break;
-	    				} else if (this.logic(x, y)) {
-	    					this.ground = this.genGrassGround(x, y);
-	    					break;
-	    				}
-	    				this.ground = this.genGround("sand", x, y);
-	    				break;
-	    			};
-	    		}
-	    	} else {
+    if (this.drag.last.x) {
+      const deltaX = this.drag.last.x - this.drag.pos.x;
+      const deltaY = this.drag.last.y - this.drag.pos.y;
 
-	    		this.ground = this.genGrassGround(x, y, 25);
-	    	}
+      if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX > 0) { // left
+        this.stage.pivot.x += Config.DRAG_SPEED;
+      } else if (Math.abs(deltaX) > Math.abs(deltaY) && deltaX < 0) { // right
+        this.stage.pivot.x -= Config.DRAG_SPEED;
+      } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY > 0) { // up
+        this.stage.pivot.y += Config.DRAG_SPEED;
+      } else if (Math.abs(deltaY) > Math.abs(deltaX) && deltaY < 0) { // down
+        this.stage.pivot.y -= Config.DRAG_SPEED;
+      }
+    }
 
-	    	if (!this.ground) continue;
+    this.drag.pos.set(x, y);
+  }
 
-	      container.addChild(this.ground);
-	    }
-	  }
-	}
-
-	logic(x, y) {
-		if ((Config.WORLD_SIZE.x   == x && 0                     == y) || // x=1, y=1   xxx
-			  (Config.WORLD_SIZE.x   == x && 1                     == y) || // x=1, y=2     x
-			  (Config.WORLD_SIZE.x   == x && 2                     == y) || // x=1, y=3     x (cornor top right fucking logic :D)
-			  (Config.WORLD_SIZE.x-1 == x && 0                     == y) || // x=2, y=1   
-			  (Config.WORLD_SIZE.x-2 == x && 0                     == y) || // x=3, y=1
-				//-----------------------------------------------------------------------
-				(3                     == x && 0                     == y) || // x=3, y=1   xxx
-			  (3                     == x && 1                     == y) || // x=3, y=2   x
-			  (3                     == x && 2                     == y) || // x=3, y=3   x   (cornor top left fucking logic :D)
-			  (2                     == x && 0                     == y) || // x=2, y=1   
-			  (1                     == x && 0                     == y) || // x=1, y=1
-				//-----------------------------------------------------------------------
-				(Config.WORLD_SIZE.x   == x && Config.WORLD_SIZE.y   == y) || // x=1, y=1     x
-			  (Config.WORLD_SIZE.x   == x && Config.WORLD_SIZE.y-1 == y) || // x=1, y=2     x
-			  (Config.WORLD_SIZE.x   == x && Config.WORLD_SIZE.y-2 == y) || // x=1, y=3   xxx (cornor bottom right fucking logic :D)
-			  (Config.WORLD_SIZE.x-1 == x && Config.WORLD_SIZE.y-2 == y) || // x=2, y=3   
-			  (Config.WORLD_SIZE.x-2 == x && Config.WORLD_SIZE.y-2 == y) || // x=3, y=3
-				//-----------------------------------------------------------------------
-				(3                     == x && Config.WORLD_SIZE.y   == y) || // x=3, y=1   x
-			  (3                     == x && Config.WORLD_SIZE.y-1 == y) || // x=3, y=2   x
-			  (1                     == x && Config.WORLD_SIZE.y-2 == y) || // x=1, y=3   xxx (cornor bottom left fucking logic :D)
-			  (2                     == x && Config.WORLD_SIZE.y-2 == y) || // x=2, y=3   
-			  (3                     == x && Config.WORLD_SIZE.y-2 == y)    // x=3, y=3
-				//-----------------------------------------------------------------------
-			 ) {
-			return false;
-		}
-		return true;
-	}
-
-	genTreeTo(ground) {
-		const three = new Three();
-		three.addTo(ground);
-		three._sprite.rotation = -62.05;
-		three._sprite.x = 141;
-		three._sprite.y = -141;
-		three._sprite.anchor.set(.5);
-		three._sprite.scale.set(6);
-	}
-
-	genGrassGround(x, y, treeChance) {
-		const ground = this.genGround("grass", x, y);
-
-		if (this.randomWithChanceOf(treeChance)) {
-			this.genTreeTo(ground);
-		}
-		return ground;
-	}
-
-	genGround(type, x, y) {
-		const ground = new Pixi.Sprite(this.resources[type].texture);
-		ground.scale.set(.2);
-		ground.anchor.set(.5);
-		const d = 100;
-		ground.x = x * d;
-		ground.y = y * d;
-		return ground;
-	}
-
-	randomWithChanceOf(chance) {
-		return Math.floor(Math.random() * 100)-1 <= chance;
-	}
-}
+  generate () {
+    for (let i = 0; i < 25; i++) {
+      for (let j = 0; j < 25; j++) {
+        const ground = new Dirt();
+        ground.addTo(this.container, { x: i * 100, y: j * 100});
+        // ground.on('mouseover', (e) => console.log(e));
+      }
+    }
+  }
+};
