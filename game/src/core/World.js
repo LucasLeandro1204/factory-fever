@@ -18,9 +18,6 @@ export default class {
     this.container = new Container();
     this.drag = {};
     this.stage = stage;
-    this.onDragStart = this.onDragStart.bind(this);
-    this.onDragEnd   = this.onDragEnd.bind(this);
-    this.onDragMove  = this.onDragMove.bind(this);
   }
 
   init () {

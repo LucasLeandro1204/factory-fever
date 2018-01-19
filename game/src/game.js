@@ -1,7 +1,5 @@
 import App from 'core/App';
-import * as Pixi from 'pixi.js';
 import { loader } from 'pixi.js';
-import World from 'core/World';
 
 const app = new App({
   antialias: true,
