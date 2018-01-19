@@ -18,6 +18,9 @@ export default class {
     this.container = new Container();
     this.drag = {};
     this.stage = stage;
+    this.onDragStart = this.onDragStart.bind(this);
+    this.onDragEnd   = this.onDragEnd.bind(this);
+    this.onDragMove  = this.onDragMove.bind(this);
   }
 
   init () {
@@ -38,16 +41,16 @@ export default class {
   }
 
   onDragEnd() {
-    this.drag.data = {};
-    this.drag.run = true;
+    this.drag.pos = {};
+    this.drag.run = false;
   }
 
   onDragMove() {
-    if (true || !this.drag.run) {
+    if (!this.drag.run) {
       return;
     }
 
-    if (this.drag.last.x) {
+    if (this.drag.last) {
       const deltaX = this.drag.last.x - this.drag.pos.x;
       const deltaY = this.drag.last.y - this.drag.pos.y;
 
@@ -62,7 +65,10 @@ export default class {
       }
     }
 
-    this.drag.pos.set(x, y);
+    this.drag.last = { 
+      x: this.drag.pos.x, 
+      y: this.drag.pos.y,
+    };
   }
 
   generate () {
