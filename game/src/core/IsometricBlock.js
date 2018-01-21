@@ -25,7 +25,6 @@ export default class {
       const sprite = new Sprite(this._texture);
       sprite.interactive = true;
       sprite.buttonMode = true;
-      sprite.on('click', () => this.rotate());
       this._sprite = sprite;
       this.ready = true;
     }
