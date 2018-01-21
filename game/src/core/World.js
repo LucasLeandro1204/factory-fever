@@ -62,8 +62,8 @@ export default class {
       }
     }
 
-    this.drag.last = { 
-      x: this.drag.pos.x, 
+    this.drag.last = {
+      x: this.drag.pos.x,
       y: this.drag.pos.y,
     };
   }
@@ -72,7 +72,7 @@ export default class {
     for (let i = 0; i < 25; i++) {
       for (let j = 0; j < 25; j++) {
         const ground = new Dirt();
-        ground.addTo(this.container, { x: i * 100, y: j * 100});
+        ground.addTo(this.container, { x: i * 100, y: j * 100 });
         // ground.on('mouseover', (e) => console.log(e));
       }
     }
