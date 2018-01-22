@@ -6,7 +6,7 @@ const angles = ['NE', 'NW', 'SE', 'SW'];
 export default class {
   constructor (angle = 0) {
     this._angle = 0;
-    this._name = this.constructor.name;
+    this._name = this.constructor.name.toLowerCase();
     this.ready = false;
     this._sprite = null;
   }
@@ -16,7 +16,7 @@ export default class {
       return;
     }
 
-    this._angle = this._angle >= 3 ? 0 : this._angle + 1;
+    this._angle = (this._angle + 1) % 4;
     this._sprite.texture = this._texture;
   }
 
@@ -25,7 +25,6 @@ export default class {
       const sprite = new Sprite(this._texture);
       sprite.interactive = true;
       sprite.buttonMode = true;
-      sprite.on('click', () => this.rotate());
       this._sprite = sprite;
       this.ready = true;
     }
@@ -43,13 +42,13 @@ export default class {
     return TextureCache[this._name + '_' + angles[this._angle]];
   }
 
-  static setup (paths, timeout) {
+  static setup (name, paths) {
     if (paths.length != 4) {
       throw new Error('Must have 4 angles');
     }
 
     const object_array = paths.map((url, index) => ({
-      name: this.constructor.name + '_' + angles[index],
+      name: name + '_' + angles[index],
       url,
     }));
 

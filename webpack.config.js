@@ -46,6 +46,7 @@ module.exports = {
     alias: {
       'vue$': 'vue/dist/vue.esm.js',
       'core': path.resolve(__dirname, './game/src/core'),
+      'items': path.resolve(__dirname, './game/src/items'),
     },
     extensions: ['*', '.js', '.vue', '.json']
   },
